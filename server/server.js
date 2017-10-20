@@ -18,12 +18,13 @@ app.use(express.static(public_path));
 io.on('connection', function(socket){
 	console.log("New User");
 
-	socket.emit("newMessage", {
-		text: "Yayy",
-		from: "Nemoz@gmail.com"
-	});
+	
 	socket.on("createMessage", function(mail){
 		console.log("Created Message", mail);
+		io.emit("newMessage", {
+		text: mail.text,
+		to: mail.to
+	});
 	});
 
 	socket.on('disconnect', function(){
