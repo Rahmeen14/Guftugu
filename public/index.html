@@ -2,22 +2,31 @@
 <html>
 <head>
 	<title>Chat_App</title>
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
-<body>
-	<h1>This is Chat_app </h1>
+<body class= "chat">
+	<div class="chat__sidebar">
+		<h3>People</h3>
+		<div class="users"></div>
+	</div>
 
-	<ol id="chats"></ol>
+	<div class="chat__main">
+	<ol id="chats" class="chat__messages"></ol>
 
-	<form id="formu">
+	<div class="chat__footer">
+		<form id="formu">
 		<label>
 			From: <input id="from" type="text" name="from">
 		</label>
 		<label>
 			Text: <input id="text" type="text" name="text">
 		</label>
-		<input type="submit" name="submit">
+		<button type="submit">Send</button>
 	</form>
 
+  <button id="geoLoc">Send Location</button>
+	</div>
+	</div>
 	<script src="/socket.io/socket.io.js"></script>
 	<script type="text/javascript" src="/js/libs/jquery-3.2.1.min.js"></script>
 	<script src="/js/index.js">

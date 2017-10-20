@@ -24,6 +24,11 @@ io.on('connection', function(socket){
 		socket.broadcast.emit("newMessage", generateMessage(mail.from, mail.text));
 		callback({text: "Yay sent", status: "fair enough"});
 	});
+
+socket.on('currentLocation', function(location){
+	var text= location.latitude + "," + location.longitude;
+    io.emit('findMap', {from: "admin", text: text});
+  });
 socket.on('disconnect', function(){
 			console.log("Client Disconnected");
 			});
