@@ -4,8 +4,22 @@
 	<title>Chat_App</title>
 </head>
 <body>
-	<h1>This is a Chat_app to be</h1>
+	<h1>This is Chat_app </h1>
+
+	<ol id="chats"></ol>
+
+	<form id="formu">
+		<label>
+			From: <input id="from" type="text" name="from">
+		</label>
+		<label>
+			Text: <input id="text" type="text" name="text">
+		</label>
+		<input type="submit" name="submit">
+	</form>
+
 	<script src="/socket.io/socket.io.js"></script>
+	<script type="text/javascript" src="/js/libs/jquery-3.2.1.min.js"></script>
 	<script src="/js/index.js">
 		
 	</script>

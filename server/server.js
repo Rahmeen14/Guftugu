@@ -19,9 +19,10 @@ io.on('connection', function(socket){
 	console.log("New User enters tadaaaa");
 	socket.emit("newMessage", generateMessage("admin", "Welcome to chat_app"));	
 	socket.broadcast.emit("newMessage",generateMessage("admin", "New user joined chat_app"));
-	socket.on("createMessage", function(mail){
+	socket.on("createMessage", function(mail,callback){
 		console.log("Created Message", mail);
 		socket.broadcast.emit("newMessage", generateMessage(mail.from, mail.text));
+		callback({text: "Yay sent", status: "fair enough"});
 	});
 socket.on('disconnect', function(){
 			console.log("Client Disconnected");
