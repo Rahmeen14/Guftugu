@@ -1,6 +1,31 @@
 var socket = io();
+function scrollToBottom(){
+	var messages = $("#chats");
+	var newMessage = messages.children("li:last-child");
+	var clientHeight = messages.prop('clientHeight');
+	var scrollTop = messages.prop('scrollTop');
+	var scrollHeight = messages.prop('scrollHeight');
+	var newMsgHeight = newMessage.innerHeight();
+	var lastMsgHeight = newMessage.prev().innerHeight();
+
+	if(clientHeight+scrollTop+newMsgHeight+lastMsgHeight >= scrollHeight)
+		messages.scrollTop(scrollHeight);
+}
 		socket.on('connect', function(){
 			console.log("connected to server");
+			var paramz = $.deparam(window.location.search);
+			console.log(paramz);
+			socket.emit('join', paramz, function(err){
+				if(err)
+				{
+					alert(err);
+					window.location.href = "/chatTab.html" ;
+				}
+				else
+				{
+					console.log("Welcome to chatApp");
+				}
+			});
 
 		});
 
@@ -18,10 +43,21 @@ var socket = io();
 				li.text(`${mail.from}: ${mail.text}, ${formattedTime}`);*/
 
 				$("#chats").append(html);
+				scrollToBottom();
 				});
 
 		socket.on('disconnect', function(){
 			console.log("Disconnected from server");
+		});
+
+		socket.on("updateUserList", function(users){
+			console.log(users);
+
+			var ol = $('<ol></ol>');
+			users.forEach(function(user){
+				ol.append($('<li></li>').text(user));
+			});
+			$('.users').html(ol);
 		});
 
 	    socket.on('findMap', function(mail){
