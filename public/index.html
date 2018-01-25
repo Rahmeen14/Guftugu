@@ -14,23 +14,52 @@
 	<ol id="chats" class="chat__messages"></ol>
 
 	<div class="chat__footer">
-		<form id="formu">
+		<form  id="formu">
 		<label>
 			From: <input id="from" type="text" name="from">
 		</label>
 		<label>
 			Text: <input id="text" type="text" name="text">
 		</label>
-		<button type="submit">Send</button>
+		<button  type="submit">Send</button>
 	</form>
 
   <button id="geoLoc">Send Location</button>
 	</div>
 	</div>
+
 	<script src="/socket.io/socket.io.js"></script>
 	<script type="text/javascript" src="/js/libs/jquery-3.2.1.min.js"></script>
-	<script src="/js/index.js">
-		
+	<script type="text/javascript" src="/js/libs/moment.js"></script>
+	<script type="text/javascript" src="/js/libs/mustache.js"></script>
+	<script src="/js/index.js"></script>
+
+	<script id = "message-template" type="text/template">
+		<li id = "message">
+			<div class= "message__title">
+				<h4>{{from}}</h4>
+				<span>{{createdAt}}</span>
+			</div>
+			<div class="message__body">
+				<p>{{text}}</p>
+			</div>
+			
+		</li>
+	</script>
+
+	<script id = "location-message-template" type="text/template">
+		<li id = "message">
+			<div class= "message__title">
+				<h4>{{from}}</h4>
+				<span>{{createdAt}}</span>
+			</div>
+			<div class="message__body">
+				<p>
+					<a href="{{url}}" target = "_blank" >My Current Location</a>
+				</p>
+			</div>
+			
+		</li>
 	</script>
 </body>
 </html>

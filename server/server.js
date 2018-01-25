@@ -3,7 +3,7 @@ const path= require('path');
 const http= require('http');
 const socketIO=require('socket.io');
 const public_path= path.join(__dirname, "../public");
-const {generateMessage} = require("./utils/message");
+const {generateMessage, generateLocationMessage} = require("./utils/message");
 
 var app= express(); 
 //^^^this is our http server
@@ -21,16 +21,17 @@ io.on('connection', function(socket){
 	socket.broadcast.emit("newMessage",generateMessage("admin", "New user joined chat_app"));
 	socket.on("createMessage", function(mail,callback){
 		console.log("Created Message", mail);
-		socket.broadcast.emit("newMessage", generateMessage(mail.from, mail.text));
+		io.emit("newMessage", generateMessage(mail.from, mail.text));
 		callback({text: "Yay sent", status: "fair enough"});
 	});
 
 socket.on('currentLocation', function(location){
 	var text= location.latitude + "," + location.longitude;
-    io.emit('findMap', {from: "admin", text: text});
+    io.emit('findMap', generateLocationMessage(location.from , text));
   });
 socket.on('disconnect', function(){
 			console.log("Client Disconnected");
+			socket.broadcast.emit("newMessage",generateMessage("admin", "A user left the chat"));
 			});
 	
 });

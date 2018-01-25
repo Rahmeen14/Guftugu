@@ -6,33 +6,50 @@ var socket = io();
 
 			socket.on("newMessage", function(mail){
 				console.log("Hey Beautiful, you've a New message", mail);
-				li= $('<li></li>');
-				li.text(`${mail.from}: ${mail.text}`);
-				$("#chats").append(li);
+
+				var template = $("#message-template").html();
+				var formattedTime = moment(mail.createdAt).format("h:mm a");
+				var html = Mustache.render(template, {
+					text: mail.text,
+					createdAt: formattedTime,
+					from: mail.from
+				});
+				/*var li= $('<li></li>');
+				li.text(`${mail.from}: ${mail.text}, ${formattedTime}`);*/
+
+				$("#chats").append(html);
 				});
 
 		socket.on('disconnect', function(){
 			console.log("Disconnected from server");
 		});
 
-	    socket.on('findMap', function(location){
-	    	a = $('<a></a>');
+	    socket.on('findMap', function(mail){
+	    	/*a = $('<a></a>');
 	    	a.attr('href', "https://google.com/maps?q="+location.text);
-	    	a.text("Get Location");
-	    	$("#chats").append(a);
+	    	a.text("Get Location");*/
+	    	console.log(mail);
+	    	var template = $("#location-message-template").html();
+			var formattedTime = moment(mail.createdAt).format("h:mm a");
+			var html = Mustache.render(template, {
+				url: mail.url,
+				createdAt: formattedTime,
+				from: mail.from
+			});
+	    	$("#chats").append(html);
 	    });
   
 		
 
 		$("#formu").on('submit', function(e){
 			e.preventDefault();
-
+			console.log(e);
+		
   	socket.emit("createMessage", {
   		from: $("#from").val(), 
   		text: $("#text").val()
-  	}, function(obj){
-			console.log("Received from server: ", obj);
-			$("#text").val('');
+  	}, function(){
+			
 		});
  
 		});
@@ -50,6 +67,7 @@ var socket = io();
           console.log(location);
         getLocation.removeAttr('disabled').text("Send Location");
           socket.emit('currentLocation', {
+          	from: $("#from").val(),
             latitude: Position.coords.latitude,
             longitude: Position.coords.longitude
           });
