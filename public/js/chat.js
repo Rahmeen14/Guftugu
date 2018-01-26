@@ -82,7 +82,7 @@ function scrollToBottom(){
 			console.log(e);
 		
   	socket.emit("createMessage", {
-  		from: $("#from").val(), 
+  	
   		text: $("#text").val()
   	}, function(){
 			
@@ -103,7 +103,7 @@ function scrollToBottom(){
           console.log(location);
         getLocation.removeAttr('disabled').text("Send Location");
           socket.emit('currentLocation', {
-          	from: $("#from").val(),
+          	
             latitude: Position.coords.latitude,
             longitude: Position.coords.longitude
           });

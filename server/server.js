@@ -40,14 +40,21 @@ io.on('connection', function(socket){
 	});
 
 	socket.on("createMessage", function(mail,callback){
-		console.log("Created Message", mail);
-		io.emit("newMessage", generateMessage(mail.from, mail.text));
+		//console.log("Created Message", mail);
+		var user = users.getUser(socket.id);
+		if(user && isRealString(mail.text))
+		{
+			io.to(user.room).emit("newMessage", generateMessage(user.name, mail.text));
+		
+		}
 		callback({text: "Yay sent", status: "fair enough"});
 	});
 
 	socket.on('currentLocation', function(location){
 	var text= location.latitude + "," + location.longitude;
-    io.emit('findMap', generateLocationMessage(location.from , text));
+	var user = users.getUser(socket.id);
+					
+    io.to(user.room).emit('findMap', generateLocationMessage(user.name , text));
 	});
 	socket.on('disconnect', function(){
 			var user = users.removeUser(socket.id);
