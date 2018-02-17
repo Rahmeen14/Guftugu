@@ -54,7 +54,7 @@ io.on('connection', function(socket){
 	var text= location.latitude + "," + location.longitude;
 	var user = users.getUser(socket.id);
 					
-    io.to(user.room).emit('findMap', generateLocationMessage(user.name , text));
+        io.to(user.room).emit('findMap', generateLocationMessage(user.name , text));
 	});
 	socket.on('disconnect', function(){
 			var user = users.removeUser(socket.id);
