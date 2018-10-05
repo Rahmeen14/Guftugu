@@ -3,7 +3,7 @@
 
 A simple NodeJS app that uses Socket.IO to build communication channels within multiple rooms.
 
-## To Run
+## To Run :computer:
 ```
 clone Guftugu
 cd Guftugu
